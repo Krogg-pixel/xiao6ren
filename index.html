@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数值计算</title>
+    <style>
+        /* 添加样式以美化按钮 */
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>数值计算</h1>
+
+    <!-- 添加选项A按钮 -->
+    <button id="optionA" onclick="calculateOptionA()">选项A</button>
+    <!-- 添加选项B按钮 -->
+    <button id="optionB" onclick="calculateOptionB()">选项B</button>
+    <!-- 添加选项C按钮 -->
+    <button id="optionC" onclick="calculateOptionC()">选项C</button>
+
+    <div id="result">
+        <!-- 显示结果的容器 -->
+    </div>
+
+    <script>
+        // 计算位置的函数
+        function calculatePosition(value, totalPositions, startPosition = 1) {
+            let position = startPosition + value - 1;
+            if (position > totalPositions) {
+                position = position % totalPositions;
+            }
+            return position;
+        }
+
+        // 根据位置计算结果的函数
+        function calculateResult(position) {
+            const results = {
+                1: "大吉",
+                2: "留连",
+                3: "速喜",
+                4: "赤口",
+                5: "小吉",
+                6: "空忙"
+            };
+            return results[position];
+        }
+
+        // 显示结果的函数
+        function displayResult(resultText) {
+            document.getElementById("result").innerHTML = resultText;
+        }
+
+        // 计算农历日期的函数
+        function calculateChineseLunarDate(year, month, day) {
+            // ... (根据公历日期计算农历日期的具体实现，请根据实际情况完成)
+            // 返回对象格式如: { lunarMonth: 6, lunarDay: 7 }
+        }
+
+        // 获取当前时间的时辰数值
+        function getChineseHour(hour) {
+            // 按照您的要求来实现将24小时制的时间转换为时辰数值的逻辑
+            // 示例代码，仅供参考
+            if (hour >= 23 || (hour >= 0 && hour < 1)) return 1;
+            if (hour >= 1 && hour < 3) return 2;
+            // ... 其他时辰的判断
+            return 1;
+        }
+
+        // 选项A的计算逻辑
+        function calculateOptionA() {
+            const currentDate = new Date(); // 获取当前公历时间
+            const year = currentDate.getUTCFullYear();
+            const month = currentDate.getUTCMonth() + 1; // 月份从0开始，需要加1
+            const day = currentDate.getUTCDate();
+            const hour = currentDate.getUTCHours();
+
+            // 计算农历日期
+            const lunarDate = calculateChineseLunarDate(year, month, day);
+            const lunarMonth = lunarDate.lunarMonth;
+            const lunarDay = lunarDate.lunarDay;
+
+            // 获取时辰数值
+            const chineseHour = getChineseHour(hour);
+
+            const totalPositions = 6;
+
+            const positionA = calculatePosition(lunarMonth, totalPositions);
+            const positionB = calculatePosition(lunarDay, totalPositions, positionA);
+            const positionC = calculatePosition(chineseHour, totalPositions, positionB);
+
+            const resultA = calculateResult(positionA);
+            const resultB = calculateResult(positionB);
+            const resultC = calculateResult(positionC);
+
+            // 显示结果，并附加使用的数值信息
+            displayResult(`选项A结果：${resultA}（数值A：${lunarMonth}，数值B：${lunarDay}，数值C：${chineseHour}）`);
+        }
+
+
+        // 选项B的计算逻辑
+        function calculateOptionB() {
+            // 选项B的数值A、数值B、数值C随机生成
+            const valueA = Math.floor(Math.random() * 12) + 1;
+            const valueB = Math.floor(Math.random() * 30) + 1;
+            const valueC = Math.floor(Math.random() * 12) + 1;
+
+            const totalPositions = 6;
+
+            const positionA = calculatePosition(valueA, totalPositions);
+            const positionB = calculatePosition(valueB, totalPositions, positionA);
+            const positionC = calculatePosition(valueC, totalPositions, positionB);
+
+            const resultA = calculateResult(positionA);
+            const resultB = calculateResult(positionB);
+            const resultC = calculateResult(positionC);
+
+            displayResult(`选项B结果：${resultB}`);
+        }
+
+        // 选项C的计算逻辑
+        function calculateOptionC() {
+            // 选项C的数值A、数值B、数值C由使用者输入
+            const valueA = parseInt(prompt("请输入数值A："), 10);
+            const valueB = parseInt(prompt("请输入数值B："), 10);
+            const valueC = parseInt(prompt("请输入数值C："), 10);
+
+            const totalPositions = 6;
+
+            const positionA = calculatePosition(valueA, totalPositions);
+            const positionB = calculatePosition(valueB, totalPositions, positionA);
+            const positionC = calculatePosition(valueC, totalPositions, positionB);
+
+            const resultA = calculateResult(positionA);
+            const resultB = calculateResult(positionB);
+            const resultC = calculateResult(positionC);
+
+            displayResult(`选项C结果：${resultC}`);
+        }
+    </script>
+</body>
+</html>
